@@ -1,0 +1,4 @@
+# One term per line. Matching is case-insensitive.
+# Real client names, internal project names, anything that must not be committed.
+Real Client Name
+Internal Project Codename

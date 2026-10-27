@@ -1,0 +1,7 @@
+sources: [github, linear]
+github:
+  some-org/client-app: checkout-revamp
+linear:
+  TEAM: checkout-revamp
+ignore:
+  - someone/side-project

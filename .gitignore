@@ -1,4 +1,4 @@
-build/
-private/
+/build/
+/private/
 node_modules/
 .DS_Store

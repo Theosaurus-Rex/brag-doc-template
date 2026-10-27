@@ -30,8 +30,9 @@ describe("template repo", () => {
   });
 
   test("example private files exist", () => {
+    const files = listScannableFiles(ROOT);
     for (const f of ["clients.example.yaml", "denylist.example.txt", "sources.example.yaml"]) {
-      expect(existsSync(join(ROOT, "examples/private", f))).toBe(true);
+      expect(files).toContain(`examples/private/${f}`);
     }
   });
 });
