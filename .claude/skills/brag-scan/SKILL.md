@@ -5,7 +5,7 @@ description: Use when the user says /brag-scan, or asks what they've done recent
 
 # Suggest brags from GitHub and Linear
 
-Read `README.md` (Data model) and `.claude/skills/brag/SKILL.md` if you haven't this session. Then read `private/denylist.txt`, `private/clients.yaml` and `private/sources.yaml`. If `sources.yaml` is missing, ask which sources the user has (e.g. github, linear), in one message, and write the file. A rubric is present if `private/rubric/` has any file. If so, read it directly, whatever its format.
+Read `README.md` (Data model) and `.claude/skills/brag/SKILL.md` if you haven't this session. Then read `private/denylist.txt`, `private/clients.yaml` and `private/sources.yaml`. If `sources.yaml` is missing, this is the first run. Ask which sources the user has (e.g. github, linear), in one message, and write the file. A rubric is present if `private/rubric/` has any file. If so, read it directly, whatever its format.
 
 **Rule: the raw data stays out of tracked files.** PR titles, repo names, ticket IDs, Linear team and project names and colleagues' names all identify clients. Show them in chat as evidence. Write only anonymised text to the repo.
 
@@ -82,7 +82,7 @@ Counts from the data (tickets shipped, PRs reviewed) are facts, but they rarely 
 
 First update the private files:
 - `sources.yaml` with the confirmed mappings and ignores.
-- `denylist.txt` with any new client names, people, or distinctive codenames. The leak check matches whole words, case-insensitively. So don't add generic Linear project names like "Form Builder" or "Care Notes", which would flag normal phrases. Never write those names or any ticket IDs in a tracked file instead. Run `bun run check` right after editing the denylist, to catch any term that now flags existing files.
+- `denylist.txt` with any new client names, people, or distinctive codenames. The leak check matches whole words, case-insensitively. So don't add generic Linear project names like "Search" or "Settings page", which would flag normal phrases. Never write those project names or any ticket IDs in a tracked file. Run `bun run check` right after editing the denylist, to catch any term that now flags existing files.
 
 Then:
 - **NEW**: follow `/brag` steps 4–9 (tags, anonymise, write the file, check, rubric note, Notion paste block). If the impact or outcome is still unknown, add a `Follow-up:` line to `## Notes`.

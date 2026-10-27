@@ -6,7 +6,7 @@ A place to keep your brag doc as plain files, so Claude can help you log wins, f
 
 1. Click "Use this template" on GitHub. Make your copy private if you prefer.
 2. Clone your copy.
-3. Install and set up:
+3. Install and set up. You need Bun and Claude Code. Typst is optional, for the PDF.
 
 ```sh
 bun install
@@ -14,12 +14,13 @@ bun run setup        # installs the pre-commit hook
 mkdir -p private/import
 cp examples/private/clients.example.yaml private/clients.yaml
 cp examples/private/denylist.example.txt private/denylist.txt
-cp examples/private/sources.example.yaml private/sources.yaml
 ```
 
 `private/` is gitignored. Everything real stays there.
 
-Install Typst only if you want the review PDF: `brew install typst`.
+`/brag-scan` asks which sources you use the first time you run it, and writes `private/sources.yaml`. `examples/private/sources.example.yaml` shows the format.
+
+To make the review PDF, install Typst: `brew install typst`.
 
 `/brag-scan` needs `gh` signed in for GitHub (`gh auth login`) and the Linear connector in Claude Code for Linear.
 
@@ -41,7 +42,7 @@ Optional. Drop your company's career rubric into `private/rubric/`, in any forma
 
 1. `/brag-followups` to fill in missing impact and open follow-ups.
 2. `/review-pack 2026-04..2026-09` to build a review doc for your manager. It is saved in `private/reviews/`.
-3. `bun run review private/reviews/<file>` to render it as a PDF.
+3. `bun run review private/reviews/<file>` to render it as a PDF. Paths are relative to the repo root, e.g. `bun run review private/reviews/2026-10-28-review.md`.
 
 ## Skills
 

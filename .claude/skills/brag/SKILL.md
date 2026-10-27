@@ -19,7 +19,7 @@ Read `README.md` (Data model) if you haven't this session.
    - `## Notes`: anything uncertain. For anything the user still needs to supply, such as impact, outcome or the month, add a line starting `Follow-up:` so `/brag-followups` can find it.
 7. Run `bun run check` and fix anything it reports.
 8. If a rubric is present (`private/rubric/` has any file), read it directly, whatever its format. Then say in one chat line which rubric themes or competencies this looks like evidence for. Don't write it to the file.
-9. Print a block for the user to paste into their Notion brag doc. Here the **real** client name from `private/clients.yaml` is allowed, because Notion is internal. Include the date, project, headline, impact and story. Don't write this block to any file. This is a stopgap while your team still uses Notion. Skip it if you don't.
+9. Print a block for the user to paste into their Notion brag doc. Here the **real** client name from `private/clients.yaml` is allowed, because Notion is internal. Include the date, project, headline, impact and story. Don't write this block to any file. This is a stopgap while your team still uses Notion. Skip this step if the user doesn't use Notion.
 10. Don't commit unless the user asks.
 
 Never invent impact or numbers. If the user doesn't know, leave `impact` out.

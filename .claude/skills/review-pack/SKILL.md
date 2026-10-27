@@ -28,7 +28,7 @@ The manager reads this before booking the formal review 1:1. They want specific 
 
 1. **Header:** name, role and level, review period.
 2. **Summary:** one short paragraph on the period.
-3. **One section per rubric theme**, or per taxonomy tag if there is no rubric. Each has 2-5 examples. Each example gives the situation, what the person did, the result, and which competency it shows (with a rubric). Use the story and `impact` from the achievement file. Put each achievement in one section only, the best fit. Don't pad a section to reach 2 examples, and leave out a theme with no evidence.
+3. **One section per rubric theme**, or per taxonomy tag if there is no rubric. Aim for 2-5 examples; use fewer if that's all the evidence supports. Don't pad. Each example gives the situation, what the person did, the result, and which competency it shows (with a rubric). Use the story and `impact` from the achievement file. Put each achievement in one section only, the best fit. Leave out a theme with no evidence.
 4. **Growth:** where they want to grow, and gaps against the next level. Ask the user where they want to grow, and don't write that part until they answer. With a rubric, a gap is a competency with no evidence in the period. Without one, skip the gaps and keep what the user tells you.
 5. **Talking points:** two or three suggestions for the 1:1.
 

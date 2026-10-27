@@ -23,7 +23,7 @@ Put each achievement in one group only, the first that applies:
 2. Stale in-progress
 3. Everything else with a follow-up, newest first
 
-One table per group, with numbered rows running across all groups so the user can pick by number. Columns: #, file, headline, what's missing, and the one question that would resolve it, e.g. "Did the Form Builder epic ship? Any numbers, such as forms built or time saved?". For follow-ups that only need a month confirmed, ask for all of them in one line at the end instead of one row each. Finish with counts per group.
+One table per group, with numbered rows running across all groups so the user can pick by number. Columns: #, file, headline, what's missing, and the one question that would resolve it, e.g. "Did the Search epic ship? Any numbers, such as searches run or time saved?". For follow-ups that only need a month confirmed, ask for all of them in one line at the end instead of one row each. Finish with counts per group.
 
 ## 3. Resolve, if the user wants to
 

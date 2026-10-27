@@ -12,7 +12,7 @@ Read `README.md` (Data model) first.
 The export contains real client names. It lives in `private/`, which is gitignored. Never copy raw text from it into a tracked file without anonymising it first.
 
 1. **Read the export.** Read whatever CSV and Markdown pages are in `private/import/`. Layouts differ, so infer which columns are title, date, tags, project and body. State the inferred mapping in the step-3 plan.
-2. **Ask for role details** if `roles/` is empty: employer, current title, start month, and any earlier titles at the same employer. Also ask for earlier employers they want included.
+2. **Ask for role details** if `roles/` has no employer other than `example-co`: employer, current title, start month, and any earlier titles at the same employer. Also ask for earlier employers they want included.
 3. **Propose a plan in one message:**
    - **Column mapping:** which column you took as title, date, tags, project and body.
    - **Projects:** which Notion tags are really projects. For each, give a slug, a generic `name`, a `client` descriptor (industry and scale, e.g. "an ASX-listed insurer"), the date range from its entries, the user's likely role, and the tech.
