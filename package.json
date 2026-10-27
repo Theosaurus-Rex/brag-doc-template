@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "check": "bun scripts/cli.ts check",
+    "review": "bun scripts/cli.ts review",
     "setup": "git config core.hooksPath .githooks",
     "typecheck": "tsc --noEmit",
     "test": "bun test"
