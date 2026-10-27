@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 export const FIXTURE = join(import.meta.dir, "fixtures/basic");
 
 export function makeTree(overrides: Record<string, string | null> = {}, opts: { git?: boolean } = {}): string {
-  const root = mkdtempSync(join(tmpdir(), "career-"));
+  const root = mkdtempSync(join(tmpdir(), "brag-"));
   cpSync(FIXTURE, root, { recursive: true });
   for (const [rel, content] of Object.entries(overrides)) {
     const path = join(root, rel);
