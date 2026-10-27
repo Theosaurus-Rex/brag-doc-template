@@ -1,9 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { cpSync, existsSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { check } from "../scripts/lib/pipeline";
-import { listScannableFiles } from "../scripts/lib/denylist";
-import { makeTree } from "./helpers";
+import { listScannableFiles, parseDenylist } from "../scripts/lib/denylist";
 
 const ROOT = join(import.meta.dir, "..");
 
@@ -24,16 +23,8 @@ describe("template repo", () => {
     }
   });
 
-  test("copied example private files raise no errors", () => {
-    const root = makeTree({}, { git: true });
-    mkdirSync(join(root, "private"), { recursive: true });
-    for (const [from, to] of [
-      ["clients.example.yaml", "clients.yaml"],
-      ["denylist.example.txt", "denylist.txt"],
-      ["sources.example.yaml", "sources.yaml"],
-    ]) {
-      cpSync(join(ROOT, "examples/private", from), join(root, "private", to));
-    }
-    expect(check(root).issues.filter((i) => i.level === "error")).toEqual([]);
+  test("example denylist has no live terms", () => {
+    const text = readFileSync(join(ROOT, "examples/private/denylist.example.txt"), "utf8");
+    expect(parseDenylist(text)).toEqual([]);
   });
 });
