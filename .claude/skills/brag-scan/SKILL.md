@@ -85,7 +85,7 @@ First update the private files:
 - `denylist.txt` with any new client names, people, or distinctive codenames. The leak check matches whole words, case-insensitively. So don't add generic Linear project names like "Form Builder" or "Care Notes", which would flag normal phrases. Never write those names or any ticket IDs in a tracked file instead. Run `bun run check` right after editing the denylist, to catch any term that now flags existing files.
 
 Then:
-- **NEW**: follow `/brag` steps 4–8 (tags, anonymise, write the file, check, rubric note, Notion paste block). If the impact or outcome is still unknown, add a `Follow-up:` line to `## Notes`.
+- **NEW**: follow `/brag` steps 4–9 (tags, anonymise, write the file, check, rubric note, Notion paste block). If the impact or outcome is still unknown, add a `Follow-up:` line to `## Notes`.
 - **ENRICH / RESOLVES**: edit the existing file. Add to `## Story` and update `impact` with numbers the user gave. Change `headline` only if the user agrees. Remove a `Follow-up:` line once it's fully answered. If it's only partly answered, rewrite it to say what is still missing. If the month changes, rename the file.
 
 Run `bun run check` and fix what it reports. Don't commit unless the user asks.
