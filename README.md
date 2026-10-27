@@ -11,6 +11,7 @@ A place to keep your brag doc as plain files, so Claude can help you log wins, f
 ```sh
 bun install
 bun run setup        # installs the pre-commit hook
+mkdir -p private/import
 cp examples/private/clients.example.yaml private/clients.yaml
 cp examples/private/denylist.example.txt private/denylist.txt
 cp examples/private/sources.example.yaml private/sources.yaml
