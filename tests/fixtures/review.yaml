@@ -1,0 +1,47 @@
+name: "Sam Example"
+role: "Engineer"
+level: "Level 3"
+employer: "Example Co"
+period: "April 2026 to September 2026"
+summary:
+  - "Delivered the checkout revamp end to end."
+  - "Unblocked two teammates on the reporting rewrite."
+  - "Cut costs by $5k for #team @ 100% with snake_case jobs."
+levels:
+  - "L3"
+  - "L4"
+  - "L4 stretch"
+themes:
+  - name: "Delivering Outcomes"
+    examples:
+      - title: "Checkout revamp"
+        client: "A national retailer"
+        date: "Jul 2026"
+        detail: "The checkout was slow and abandoned often. I rebuilt the payment step and shipped it behind a flag."
+        result: "Abandonment fell by 12%."
+        shows:
+          - name: "Owning delivery"
+            level: "L3"
+          - name: "Supporting others' delivery"
+            level: "L4"
+      - title: "Cost review"
+        date: "Aug 2026"
+        detail: "Cut costs by $5k for #team @ 100% by retiring unused snake_case batch jobs."
+        shows:
+          - name: "Cost awareness"
+  - name: "Growing the Team"
+    examples:
+      - title: "Reporting rewrite pairing"
+        client: "An energy retailer"
+        date: "May 2026"
+        detail: "Two teammates were stuck on the new report builder. I paired with them and wrote a short guide."
+        result: "Both shipped their parts a sprint early."
+        shows:
+          - name: "Mentoring"
+            level: "L4 stretch"
+gaps:
+  - name: "Security"
+    note: "No examples this period."
+asks:
+  - title: "Level 4 readiness"
+    text: "What would make my case for Level 4 stronger?"

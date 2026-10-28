@@ -20,7 +20,7 @@ cp examples/private/denylist.example.txt private/denylist.txt
 
 `/brag-scan` asks which sources you use the first time you run it, and writes `private/sources.yaml`. `examples/private/sources.example.yaml` shows the format.
 
-To make the review PDF, install Typst: `brew install typst`.
+To render the review PDF, install Typst: `brew install typst`.
 
 `/brag-scan` needs `gh` signed in for GitHub (`gh auth login`), the Linear connector in Claude Code for Linear, and the Slack connector in Claude Code for Slack.
 
@@ -41,8 +41,8 @@ Optional. Drop your company's career rubric into `private/rubric/`, in any forma
 ## Before a review
 
 1. `/brag-followups` to fill in missing impact and open follow-ups.
-2. `/review-pack 2026-04..2026-09` to build a review doc for your manager. It is saved in `private/reviews/`.
-3. `bun run review private/reviews/<file>` to render it as a PDF. Paths are relative to the repo root, e.g. `bun run review private/reviews/2026-10-28-review.md`.
+2. `/review-pack 2026-04..2026-09` to build a review doc for your manager, saved as YAML in `private/reviews/`.
+3. `bun run review private/reviews/<file>` to render it as a PDF with an evidence table: work, result and the competencies it shows, grouped by theme. Paths are relative to the repo root, e.g. `bun run review private/reviews/2026-10-28-review.yaml`.
 
 ## Skills
 
@@ -59,7 +59,7 @@ Optional. Drop your company's career rubric into `private/rubric/`, in any forma
 | Command | Does |
 |---|---|
 | `bun run check` | Validate everything, including the leak check |
-| `bun run review <file>` | Render a review doc to PDF (needs Typst) |
+| `bun run review <file>` | Render a review YAML doc to PDF (needs Typst) |
 | `bun test` | Run tests |
 | `bun run setup` | Install the pre-commit hook |
 
@@ -131,7 +131,7 @@ A line starting `Follow-up:` marks something to come back to. `/brag-followups` 
 
 - `roles/`: your employers, projects and achievements. `roles/example-co/` is an example. Delete it after import.
 - `taxonomy.yaml`: the allowed tags
-- `template/review.typ`: the review PDF design
+- `template/review.typ`: the review PDF design (reads a review YAML file)
 - `examples/private/`: example files to copy into `private/`
 - `private/` (gitignored): `clients.yaml`, `denylist.txt`, `sources.yaml`, `me.yaml`, `import/`, `rubric/`, `reviews/`
 
