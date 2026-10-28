@@ -23,11 +23,20 @@ Put each achievement in one group only, the first that applies:
 2. Stale in-progress
 3. Everything else with a follow-up, newest first
 
-One table per group, with numbered rows running across all groups so the user can pick by number. Columns: #, file, headline, what's missing, and the one question that would resolve it, e.g. "Did the Search epic ship? Any numbers, such as searches run or time saved?". For follow-ups that only need a month confirmed, ask for all of them in one line at the end instead of one row each. Finish with counts per group.
+One table per group, with numbered rows running across all groups so the user can pick by number. Columns: #, file, headline, and what's missing. Finish with counts per group. Put no questions in this message. Step 3 asks them.
 
 ## 3. Resolve, if the user wants to
 
-Work through the rows the user picks, asking about up to 5 at a time. For each answer:
+First ask which rows to work through: all of group 1, all of groups 1–2, everything, or specific numbers.
+
+Then work through them in order. Use `AskUserQuestion` with one question per call, so the user can click an answer, not type an essay. Wait for each answer before asking the next.
+
+- Give 2–4 options built from the file's story and Notes, e.g. "Shipped to production", "Demoed, not live yet", "Cancelled". Add a "Not sure" option; choosing it keeps the `Follow-up:` line.
+- The user can type their own answer instead. Read it carefully. It often adds detail or changes the plan. Act on it, and ask a short follow-up question if it's unclear.
+- Ask up to about 3 questions per row, e.g. the outcome, the impact, and whether to change the headline. Don't ask what an earlier answer already settles.
+- For rows that only need a month confirmed, ask one question listing them all, near the end.
+
+For each answer:
 
 - Update `impact` only with numbers the user gives. Never invent or estimate.
 - Update `## Story` with the outcome. Change `headline` only if the user agrees.

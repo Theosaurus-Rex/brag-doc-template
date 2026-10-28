@@ -1,13 +1,13 @@
 ---
 name: brag-scan
-description: Use when the user says /brag-scan, or asks what they've done recently that's worth a brag, wants brag suggestions from their GitHub or Linear history, or wants recent work matched to existing achievements. Optional argument is the period, default the last 30 days.
+description: Use when the user says /brag-scan, or asks what they've done recently that's worth a brag, wants brag suggestions from their GitHub, Linear or Slack history, or wants recent work matched to existing achievements. Optional argument is the period, default the last 30 days.
 ---
 
-# Suggest brags from GitHub and Linear
+# Suggest brags from GitHub, Linear and Slack
 
-Read `README.md` (Data model) and `.claude/skills/brag/SKILL.md` if you haven't this session. Then read `private/denylist.txt`, `private/clients.yaml` and `private/sources.yaml`. If `sources.yaml` is missing, this is the first run. Ask which sources the user has (e.g. github, linear), in one message, and write the file. A rubric is present if `private/rubric/` has any file. If so, read it directly, whatever its format.
+Read `README.md` (Data model) and `.claude/skills/brag/SKILL.md` if you haven't this session. Then read `private/denylist.txt`, `private/clients.yaml` and `private/sources.yaml`. If `sources.yaml` is missing, this is the first run. Ask which sources the user has (e.g. github, linear, slack), in one message, and write the file. A rubric is present if `private/rubric/` has any file. If so, read it directly, whatever its format.
 
-**Rule: the raw data stays out of tracked files.** PR titles, repo names, ticket IDs, Linear team and project names and colleagues' names all identify clients. Show them in chat as evidence. Write only anonymised text to the repo.
+**Rule: the raw data stays out of tracked files.** PR titles, repo names, ticket IDs, Linear team and project names, Slack channel names, message text and colleagues' names all identify clients. Show them in chat as evidence. Write only anonymised text to the repo.
 
 ## 1. Gather
 
@@ -27,25 +27,37 @@ Query only the sources listed under `sources:` in `sources.yaml`. Start date: fr
 - `updatedAt` also returns old issues that were only touched recently. Keep an issue only if its `completedAt` or `createdAt` falls in the period. De-duplicate the two lists by id.
 - `list_projects` for the projects these issues belong to. If you're the project lead, the headline can say "Led". Otherwise say what you built.
 
-If a source fails or isn't connected, say so and carry on with the other.
+**Slack** (load the tools with ToolSearch, e.g. `+slack search`). If only `authenticate` tools come back, Slack isn't connected. Say so, offer to start the sign-in, and carry on without it.
+- Search your own messages in the period, e.g. `from:@me after:<since>`. Look for threads you started: proposals, announcements, demos, write-ups and decisions. Read the replies on the promising ones.
+- Search for praise: messages that mention you and say thanks, kudos, great work or similar.
+- Skip `channels` listed under `ignore` in `sources.yaml`.
+- Slack is the best evidence of leadership and influence: initiatives you started, trade-offs you put to the team, and how others responded. Use it mainly to enrich candidates from GitHub and Linear. A thread can be its own candidate, e.g. a process change or a talk.
+- Paraphrase in tracked files, e.g. "praised by the tech lead". Never quote a message.
+
+If the user pastes a Slack thread, treat it the same way.
+
+If a source fails or isn't connected, say so and carry on with the others.
 
 ## 2. Map sources to projects
 
-`private/sources.yaml` lists the sources to query, maps each GitHub repo and Linear team to a project slug, and ignores the rest:
+`private/sources.yaml` lists the sources to query, maps each GitHub repo, Linear team and Slack channel to a project slug, and ignores the rest:
 
 ```yaml
-sources: [github, linear]
+sources: [github, linear, slack]
 github:
   some-org/client-app: client-project-slug
 linear:
   TEAM: client-project-slug
+slack:
+  client-project-channel: client-project-slug
 ignore:
   - someone/side-project
+  - random
 ```
 
-For anything unmapped, guess a project slug from `roles/*/projects/` (match on client and tech), or `role` for internal employer work, and carry on with that guess. List the guesses at the top of the step-5 message for the user to confirm. Write `sources.yaml` once they're confirmed.
+For anything unmapped, guess a project slug from `roles/*/projects/` (match on client and tech), or `role` for internal employer work, and carry on with that guess. List the guesses at the top of the step-5 message, and confirm them in step 6. Write `sources.yaml` once they're confirmed.
 
-Personal repos (under the user's own account, not an employer's) don't belong to any role. List them separately in step 5 and ask whether to skip them (add them to `ignore`) or keep them for later. Don't let a side project's PR count crowd out work candidates.
+Personal repos (under the user's own account, not an employer's) don't belong to any role. List them separately in step 5, and in step 6 ask whether to skip them (add them to `ignore`) or keep them for later. Don't let a side project's PR count crowd out work candidates.
 
 If a new client appears, follow `/brag` step 2 to propose a new `project.md`.
 
@@ -72,13 +84,36 @@ For each candidate, read the achievements under the mapped project (or `roles/<e
 
 ## 5. Propose, in one message
 
-1. Source mapping guesses to confirm, and personal repos to decide on.
-2. Candidates, numbered. For each: kind, project, month, a draft headline (one-line summary: strong verb, concrete result, under about 20 words), evidence (PR and ticket references, counts), the existing file if it's ENRICH or RESOLVES, and what's missing, usually the impact or whether you led it.
-3. Questions: which candidates to keep, and any real numbers.
+1. Source mapping guesses, and personal repos.
+2. Candidates, numbered. For each: kind, project, month, a draft headline (one-line summary: strong verb, concrete result, under about 20 words), evidence (PR and ticket references, counts, Slack threads), the existing file if it's ENRICH or RESOLVES, and what's missing, usually the impact or whether you led it.
+
+Put no questions in this message. Step 6 asks them.
 
 Counts from the data (tickets shipped, PRs reviewed) are facts, but they rarely make a good `impact`. Use one only if the user agrees. Never invent or estimate impact.
 
-## 6. Write what the user approves
+## 6. Ask, one question at a time
+
+Use `AskUserQuestion` with one question per call, so the user can click an answer, not type an essay. Wait for each answer before asking the next.
+
+- Give 2–4 options built from the evidence: the likely answers, not generic ones. Add a "Not sure" option where it fits; choosing it means a `Follow-up:` line.
+- The user can type their own answer instead. Read it carefully. It often adds detail or changes the plan, e.g. "1 and 3", "also merge it with X", or a fact you didn't know. Act on it, and ask a short follow-up question if it's unclear.
+- Don't ask what the data or an earlier answer already settles.
+
+Order:
+1. Mapping guesses (one question, confirm or correct), then personal repos (skip or keep).
+2. New terms for the denylist: codenames or people's names seen in Linear, GitHub or Slack. Ask whether each is internal or generic enough to keep.
+3. For each candidate in turn:
+   - Keep, skip, or merge into another candidate or an existing file.
+   - Then up to about 4 questions on what's missing. Typical ones:
+     - the problem it solved
+     - the decision you're proudest of
+     - how it was built: solo, leading others, or with an AI agent
+     - where it is now: live, demoed or not deployed
+     - the impact
+     - for ENRICH or RESOLVES, whether to change the headline
+4. Once, near the end: whether counts from the data may be used as `impact`.
+
+## 7. Write what the user approves
 
 First update the private files:
 - `sources.yaml` with the confirmed mappings and ignores.
@@ -87,5 +122,8 @@ First update the private files:
 Then:
 - **NEW**: follow `/brag` steps 4–9 (tags, anonymise, write the file, check, rubric note, Notion paste block). If the impact or outcome is still unknown, add a `Follow-up:` line to `## Notes`.
 - **ENRICH / RESOLVES**: edit the existing file. Add to `## Story` and update `impact` with numbers the user gave. Change `headline` only if the user agrees. Remove a `Follow-up:` line once it's fully answered. If it's only partly answered, rewrite it to say what is still missing. If the month changes, rename the file.
+- **MERGE**: if the user folds existing achievements into a new one, carry over their story and any open `Follow-up:` lines. Then delete the old files.
+
+In the Notion paste blocks, use day dates, such as when the Linear project was completed or the PR merged. Use a range for work spread over weeks. The repo files stay at `YYYY-MM`.
 
 Run `bun run check` and fix what it reports. Don't commit unless the user asks.
