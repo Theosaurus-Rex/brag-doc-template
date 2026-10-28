@@ -4,13 +4,13 @@ A place to keep your brag doc as plain files, so Claude can help you log wins, f
 
 ## Setup
 
-1. Click "Use this template" on GitHub. Make your copy private if you prefer.
+1. Click "Use this template" on GitHub. Keep your copy private unless you've run the history check (see below).
 2. Clone your copy.
 3. Install and set up. You need Bun and Claude Code. Typst is optional, for the PDF.
 
 ```sh
 bun install
-bun run setup        # installs the pre-commit hook
+bun run setup        # installs the git hooks
 mkdir -p private/import
 cp examples/private/clients.example.yaml private/clients.yaml
 cp examples/private/denylist.example.txt private/denylist.txt
@@ -59,9 +59,10 @@ Optional. Drop your company's career rubric into `private/rubric/`, in any forma
 | Command | Does |
 |---|---|
 | `bun run check` | Validate everything, including the leak check |
+| `bun run check --history` | Run the leak check over all of git history |
 | `bun run review <file>` | Render a review YAML doc to PDF (needs Typst) |
 | `bun test` | Run tests |
-| `bun run setup` | Install the pre-commit hook |
+| `bun run setup` | Install the git hooks |
 
 ## Data model
 
@@ -137,4 +138,10 @@ A line starting `Follow-up:` marks something to come back to. `/brag-followups` 
 
 ## Anonymisation
 
-Client names are often under NDA. Never write a real client name, internal codename or colleague's name in any tracked file. Describe clients generically, e.g. "a national energy retailer". List the real names in `private/denylist.txt`. `bun run check` and the pre-commit hook fail if any of them appear in the repo. Real names go back into review docs only, which stay in `private/reviews/`.
+Client names are often under NDA. Never write a real client name, internal codename or colleague's name in any tracked file. Describe clients generically, e.g. "a national energy retailer". List the real names in `private/denylist.txt`. `bun run check` reads both `private/denylist.txt` and `private/clients.yaml` (the real client names in it count too) and fails if any of them appear in the repo. Real names go back into review docs only, which stay in `private/reviews/`.
+
+The git hooks run this check on file contents, file paths and commit messages. `git commit --no-verify` and edits made on the GitHub website skip them.
+
+## Making your repo public
+
+Run `bun run check --history`. It scans every commit message, every file path and every file's contents across all of history. If it finds anything, rewriting history is fiddly. The simplest fix is a fresh repo with the current files and a new first commit, after you fix them.

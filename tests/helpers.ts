@@ -19,3 +19,13 @@ export function makeTree(overrides: Record<string, string | null> = {}, opts: { 
   if (opts.git) Bun.spawnSync(["git", "init", "-q"], { cwd: root });
   return root;
 }
+
+export function git(root: string, ...args: string[]) {
+  const res = Bun.spawnSync(["git", "-c", "user.name=T", "-c", "user.email=t@example.com", ...args], { cwd: root });
+  if (res.exitCode !== 0) throw new Error(res.stderr.toString());
+}
+
+export function commitAll(root: string, message: string) {
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "--no-verify", "-m", message);
+}

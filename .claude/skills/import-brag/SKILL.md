@@ -7,6 +7,8 @@ description: Repeatable import of a Notion brag doc export into this repo's role
 
 Read `README.md` (Data model) first.
 
+If `git config core.hooksPath` isn't `.githooks`, tell the user to run `bun run setup` so commits are checked for client names.
+
 **Prerequisite:** the user has exported the Notion database (⋯ → Export → Markdown & CSV) and unzipped it into `private/import/`, and copied `examples/private/*` into `private/` if they haven't already. If `private/import/` is empty, tell them how to do this and stop.
 
 The export contains real client names. It lives in `private/`, which is gitignored. Never copy raw text from it into a tracked file without anonymising it first.

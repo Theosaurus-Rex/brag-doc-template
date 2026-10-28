@@ -7,6 +7,8 @@ description: Log a new career achievement into this repo as an achievement file.
 
 Read `README.md` (Data model) if you haven't this session.
 
+If `git config core.hooksPath` isn't `.githooks`, tell the user to run `bun run setup` so commits are checked for client names.
+
 1. Take the user's rough description.
 2. Work out where it belongs. List `roles/*/projects/*/project.md` and match on name and client descriptor. If it isn't project work, it goes in `roles/<employer>/achievements/`. If it's a new project, propose a `project.md` (generic name, client descriptor, dates, role, tech) and confirm it with one `AskUserQuestion`. Then append `<project-slug>: <real client name>` to `private/clients.yaml`, and the real name plus any codenames or people the user mentioned to `private/denylist.txt`. Create either file if missing.
 3. Ask only for what is missing: the measurable impact, the month (`YYYY-MM`), which project if unclear, and anything the story needs, such as whether the user led it or where it is now. Don't ask about anything you can infer.
