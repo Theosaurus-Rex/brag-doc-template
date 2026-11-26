@@ -6,7 +6,7 @@ A place to keep your brag doc as plain files, so Claude can help you log wins, f
 
 1. Click "Use this template" on GitHub. Keep your copy private unless you've run the history check (see below).
 2. Clone your copy.
-3. Install and set up. You need Bun and Claude Code. Typst is optional, for the PDF.
+3. Install and set up. You need Bun 1.2 or later (see [Installing Bun](#installing-bun)) and Claude Code. Typst is optional, for the PDF.
 
 ```sh
 bun install
@@ -21,6 +21,26 @@ cp examples/private/denylist.example.txt private/denylist.txt
 `/brag-scan` asks which sources you use the first time you run it, and writes `private/sources.yaml`. `examples/private/sources.example.yaml` shows the format.
 
 To render the review PDF, install Typst: `brew install typst`.
+
+### Installing Bun
+
+On macOS, install Bun with Homebrew:
+
+```sh
+brew install oven-sh/bun/bun
+```
+
+The git hooks run `bun` on every commit and push, and Claude Code runs `bun run check` too. These run without your shell profile, so if `bun` is only on your PATH through `.zshrc`, it won't be found and every commit fails with `bun: command not found`. Homebrew puts `bun` in `/opt/homebrew/bin`, where GUI git clients and Claude Code can find it.
+
+If you used the `curl -fsSL https://bun.sh/install | bash` installer, `bun` lives in `~/.bun/bin`, and only your shell profile adds that to your PATH. Either switch to Homebrew, or link it onto the system PATH:
+
+```sh
+sudo ln -s ~/.bun/bin/bun /usr/local/bin/bun
+```
+
+On Linux, the `curl` installer is fine if you add `~/.bun/bin` to your PATH in `~/.profile`, not only in `~/.bashrc`. On Windows, use WSL, since the hooks are shell scripts.
+
+Check it with `bun --version`. The lockfile needs 1.2 or later. If yours is older, run `brew upgrade bun` or `bun upgrade`.
 
 `/brag-scan` needs `gh` signed in for GitHub (`gh auth login`), the Linear connector in Claude Code for Linear, and the Slack connector in Claude Code for Slack.
 
