@@ -1,11 +1,11 @@
 ---
 name: brag-scan
-description: Use when the user says /brag-scan, or asks what they've done recently that's worth a brag, wants brag suggestions from their GitHub, Linear or Slack history, or wants recent work matched to existing achievements. Optional argument is the period, default the last 30 days.
+description: Use when the user says /brag-scan, or asks what they've done recently that's worth a brag, wants brag suggestions from their GitHub, GitLab, Linear or Slack history, or wants recent work matched to existing achievements. Optional argument is the period, default the last 30 days.
 ---
 
-# Suggest brags from GitHub, Linear and Slack
+# Suggest brags from GitHub, GitLab, Linear and Slack
 
-Read `README.md` (Data model) and `.claude/skills/brag/SKILL.md` if you haven't this session. Then read `private/denylist.txt`, `private/clients.yaml` and `private/sources.yaml`. If `sources.yaml` is missing, this is the first run. Ask which sources the user has (e.g. github, linear, slack), in one message, and write the file. A rubric is present if `private/rubric/` has any file. If so, read it directly, whatever its format.
+Read `README.md` (Data model) and `.claude/skills/brag/SKILL.md` if you haven't this session. Then read `private/denylist.txt`, `private/clients.yaml` and `private/sources.yaml`. If `sources.yaml` is missing, this is the first run. Ask which sources the user has (e.g. github, gitlab, linear, slack), in one message, and write the file. A rubric is present if `private/rubric/` has any file. If so, read it directly, whatever its format.
 
 **Rule: the raw data stays out of tracked files.** PR titles, repo names, ticket IDs, Linear team and project names, Slack channel names, message text and colleagues' names all identify clients. Show them in chat as evidence. Write only anonymised text to the repo.
 
@@ -20,6 +20,13 @@ Query only the sources listed under `sources:` in `sources.yaml`. Start date: fr
 - For notable PRs only: `gh pr view <url> --json body,additions,deletions`.
 - Skip repos listed under `ignore` in `sources.yaml`, and this repo.
 - An open PR hasn't shipped. Say so in the proposal, and use its merged child PRs or done tickets as the evidence.
+
+**GitLab** (`glab`, already authenticated; for a self-hosted instance, set `GITLAB_HOST`). Keep output to one line per merge request:
+- Authored: `glab api --paginate "merge_requests?scope=created_by_me&state=all&created_after=<since>&per_page=100" | jq -r '.[] | "\(.references.full) [\(.state)] \(.title)"'`
+- Reviewed: get your username with `glab api user | jq -r .username`, then `glab api --paginate "merge_requests?scope=all&reviewer_username=<username>&updated_after=<since>&per_page=100"` with the same `jq`.
+- For notable MRs only: `glab mr view <iid> -R <group/project>`.
+- The GitHub rules on `ignore`, this repo and open PRs apply here too.
+- A repo that moved from GitHub keeps its old PRs only as merge commits. Map both paths in `sources.yaml`.
 
 **Linear** (MCP tools are deferred, so load them first with ToolSearch, e.g. `select:mcp__claude_ai_Linear__list_issues,mcp__claude_ai_Linear__list_projects`):
 - `list_issues` with `assignee: "me"`, `updatedAt` set to the period (e.g. `-P30D`), `limit: 100`, and fields `title, status, completedAt, createdAt, project, team, parentId`. Follow `cursor` while `hasNextPage` is true.
@@ -40,12 +47,14 @@ If a source fails or isn't connected, say so and carry on with the others.
 
 ## 2. Map sources to projects
 
-`private/sources.yaml` lists the sources to query, maps each GitHub repo, Linear team and Slack channel to a project slug, and ignores the rest:
+`private/sources.yaml` lists the sources to query, maps each GitHub or GitLab repo, Linear team and Slack channel to a project slug, and ignores the rest:
 
 ```yaml
-sources: [github, linear, slack]
+sources: [github, gitlab, linear, slack]
 github:
   some-org/client-app: client-project-slug
+gitlab:
+  some-group/client-api: client-project-slug
 linear:
   TEAM: client-project-slug
 slack:
@@ -101,7 +110,7 @@ Use `AskUserQuestion` with one question per call, so the user can click an answe
 
 Order:
 1. Mapping guesses (one question, confirm or correct), then personal repos (skip or keep).
-2. New terms for the denylist: codenames or people's names seen in Linear, GitHub or Slack. Ask whether each is internal or generic enough to keep.
+2. New terms for the denylist: codenames or people's names seen in Linear, GitHub, GitLab or Slack. Ask whether each is internal or generic enough to keep.
 3. For each candidate in turn:
    - Keep, skip, or merge into another candidate or an existing file.
    - Then up to about 4 questions on what's missing. Typical ones:

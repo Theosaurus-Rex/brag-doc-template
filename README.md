@@ -42,7 +42,7 @@ On Linux, the `curl` installer is fine if you add `~/.bun/bin` to your PATH in `
 
 Check it with `bun --version`. The lockfile needs 1.2 or later. If yours is older, run `brew upgrade bun` or `bun upgrade`.
 
-`/brag-scan` needs `gh` signed in for GitHub (`gh auth login`), the Linear connector in Claude Code for Linear, and the Slack connector in Claude Code for Slack.
+`/brag-scan` needs `gh` signed in for GitHub (`gh auth login`), `glab` signed in for GitLab (`brew install glab jq`, then `glab auth login`), the Linear connector in Claude Code for Linear, and the Slack connector in Claude Code for Slack.
 
 ## First 15 minutes
 
@@ -71,7 +71,7 @@ Optional. Drop your company's career rubric into `private/rubric/`, in any forma
 | `/import-brag` | Import your Notion export into role, project and achievement files. Can be re-run for a fresh export. |
 | `/brag` | Log a new achievement |
 | `/brag-followups` | List achievements with open `Follow-up:` notes or missing impact, and resolve them |
-| `/brag-scan [period]` | Suggest new brags from recent GitHub, Linear and Slack activity, or match it to existing ones (default: last 30 days) |
+| `/brag-scan [period]` | Suggest new brags from recent GitHub, GitLab, Linear and Slack activity, or match it to existing ones (default: last 30 days) |
 | `/review-pack <period>` | Build a doc for your manager from a period of achievements |
 
 ## Commands
